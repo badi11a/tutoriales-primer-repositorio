@@ -1,0 +1,371 @@
+
+<style>
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.tut-header{padding:1.5rem 0 1rem}
+.tut-title{font-size:22px;font-weight:500;color:var(--color-text-primary);margin:0 0 6px}
+.tut-subtitle{font-size:15px;color:var(--color-text-secondary);margin:0 0 1.2rem;line-height:1.6}
+.progress-wrap{margin:0 0 2rem}
+.prog-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.prog-label{font-size:13px;color:var(--color-text-secondary)}
+.prog-pct{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.prog-track{background:var(--color-background-secondary);border-radius:20px;height:6px;overflow:hidden}
+.prog-fill{height:6px;border-radius:20px;background:var(--color-text-success);transition:width .35s}
+.phase{margin:0 0 2rem}
+.phase-label{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:.07em;text-transform:uppercase;margin:0 0 10px}
+.phase-line{flex:1;height:.5px;background:var(--color-border-tertiary)}
+.step-card{background:var(--color-background-primary);border:.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:10px;overflow:hidden;transition:border-color .15s}
+.step-card.done{border-color:var(--color-border-success)}
+.step-card.active{border-color:var(--color-border-secondary)}
+.step-header{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;cursor:pointer}
+.step-num{width:26px;height:26px;min-width:26px;border-radius:50%;border:.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:var(--color-text-secondary);margin-top:1px;transition:all .2s}
+.step-card.done .step-num{background:var(--color-background-success);border-color:var(--color-border-success);color:var(--color-text-success)}
+.step-card.active .step-num{background:var(--color-background-info);border-color:var(--color-border-info);color:var(--color-text-info)}
+.step-meta{flex:1}
+.step-title{font-size:15px;font-weight:500;color:var(--color-text-primary);margin:0 0 3px;line-height:1.4}
+.step-card.done .step-title{color:var(--color-text-secondary)}
+.step-intro{font-size:13px;color:var(--color-text-secondary);margin:0;line-height:1.5}
+.step-chevron{font-size:16px;color:var(--color-text-tertiary);margin-top:4px;transition:transform .2s}
+.step-card.open .step-chevron{transform:rotate(180deg)}
+.step-body{display:none;padding:0 16px 16px 54px;border-top:.5px solid var(--color-border-tertiary)}
+.step-card.open .step-body{display:block}
+.step-explanation{font-size:14px;color:var(--color-text-secondary);line-height:1.7;margin:12px 0 10px}
+.step-action{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;margin:10px 0}
+.step-action-label{font-size:11px;font-weight:500;color:var(--color-text-tertiary);text-transform:uppercase;letter-spacing:.06em;margin:0 0 4px}
+.step-action-text{font-size:14px;color:var(--color-text-primary);margin:0;line-height:1.5}
+.step-tip{display:flex;gap:8px;background:var(--color-background-warning);border-radius:var(--border-radius-md);padding:10px 12px;margin:10px 0}
+.step-tip-icon{font-size:15px;color:var(--color-text-warning);margin-top:1px}
+.step-tip-text{font-size:13px;color:var(--color-text-warning);margin:0;line-height:1.5}
+.done-btn{margin-top:12px;font-size:14px;padding:7px 16px;border-radius:var(--border-radius-md)}
+.step-card.done .done-btn{opacity:.5;pointer-events:none}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle;font-weight:500}
+.tag-new{background:var(--color-background-info);color:var(--color-text-info)}
+.tag-care{background:var(--color-background-warning);color:var(--color-text-warning)}
+.congrats{display:none;text-align:center;padding:2rem 1rem;border:.5px solid var(--color-border-success);border-radius:var(--border-radius-lg);background:var(--color-background-success);margin-top:1rem}
+.congrats.show{display:block}
+.congrats-icon{font-size:32px;color:var(--color-text-success);margin-bottom:8px}
+.congrats-title{font-size:18px;font-weight:500;color:var(--color-text-success);margin:0 0 6px}
+.congrats-text{font-size:14px;color:var(--color-text-success);margin:0}
+.reset-btn{font-size:13px;color:var(--color-text-tertiary);background:none;border:none;cursor:pointer;padding:0;font-family:var(--font-sans);margin-top:1.5rem;display:block}
+.reset-btn:hover{color:var(--color-text-secondary)}
+code{font-family:var(--font-mono);font-size:13px;background:var(--color-background-secondary);padding:1px 5px;border-radius:4px;border:.5px solid var(--color-border-tertiary)}
+</style>
+
+<h2 class="sr-only">Tutorial: Mi primer repositorio en GitHub y publicación con GitHub Pages</h2>
+
+<div class="tut-header">
+  <p class="tut-title">Mi primer repositorio</p>
+  <p class="tut-subtitle">En este tutorial vas a crear una cuenta en GitHub, subir tu primera página web y publicarla en internet. Al terminar tendrás una URL real que puedes compartir con cualquier persona.</p>
+  <div class="progress-wrap">
+    <div class="prog-meta">
+      <span class="prog-label" id="prog-label">0 de 15 pasos completados</span>
+      <span class="prog-pct" id="prog-pct">0%</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="phase-label"><i class="ti ti-user-plus" aria-hidden="true"></i> Parte 1 · Crear tu cuenta en GitHub <div class="phase-line"></div></div>
+
+  <div class="step-card" id="s0">
+    <div class="step-header" onclick="openStep(0)">
+      <div class="step-num" id="n0">1</div>
+      <div class="step-meta">
+        <p class="step-title">Ir a github.com</p>
+        <p class="step-intro">Tu punto de partida: la página principal de GitHub.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">GitHub es la plataforma más usada en el mundo para guardar y compartir código. Piensa en ella como una nube especializada para proyectos de desarrollo. La interfaz está en inglés — no existe opción de cambiarla al español, así que iremos conociendo los términos clave a medida que avancemos.</p>
+      <div class="step-action"><p class="step-action-label">Acción</p><p class="step-action-text">Abre tu navegador y ve a <a href="https://github.com" style="color:var(--color-text-info)">github.com</a>. Haz clic en el botón <code>Sign up</code> que aparece arriba a la derecha.</p></div>
+      <button class="done-btn" onclick="markDone(0)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="s1">
+    <div class="step-header" onclick="openStep(1)">
+      <div class="step-num" id="n1">2</div>
+      <div class="step-meta">
+        <p class="step-title">Ingresar tu correo electrónico</p>
+        <p class="step-intro">El correo es la llave de tu cuenta.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">GitHub usará este correo para enviarte un código de verificación y para notificarte sobre tu cuenta. Usa un correo que revises con frecuencia — sin verificarlo no podrás crear repositorios.</p>
+      <div class="step-action"><p class="step-action-label">Alternativa nueva <span class="tag tag-new">2024+</span></p><p class="step-action-text">También puedes hacer clic en <code>Continue with Google</code> para registrarte directamente con tu cuenta de Google, sin necesidad de recordar una contraseña adicional.</p></div>
+      <button class="done-btn" onclick="markDone(1)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="s2">
+    <div class="step-header" onclick="openStep(2)">
+      <div class="step-num" id="n2">3</div>
+      <div class="step-meta">
+        <p class="step-title">Elegir contraseña y nombre de usuario</p>
+        <p class="step-intro">Tu nombre de usuario es tu identidad pública como desarrollador.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">El nombre de usuario aparecerá en la URL de todos tus proyectos. Por ejemplo, si tu usuario es <code>maria-dev</code>, tu sitio quedará en <code>maria-dev.github.io</code>. Elige algo profesional y fácil de recordar — este nombre te acompañará en tu carrera.</p>
+      <div class="step-tip"><i class="ti ti-bulb step-tip-icon" aria-hidden="true"></i><p class="step-tip-text">Evita números aleatorios o apodos informales. Muchos reclutadores revisan el perfil de GitHub como parte del proceso de selección.</p></div>
+      <button class="done-btn" onclick="markDone(2)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="s3">
+    <div class="step-header" onclick="openStep(3)">
+      <div class="step-num" id="n3">4</div>
+      <div class="step-meta">
+        <p class="step-title">Resolver el captcha visual</p>
+        <p class="step-intro">GitHub verifica que eres una persona real.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">GitHub presenta un rompecabezas visual que debes completar antes de continuar. Es una medida de seguridad para evitar que robots creen cuentas falsas de forma masiva.</p>
+      <div class="step-action"><p class="step-action-label">Acción</p><p class="step-action-text">Haz clic en <code>Start puzzle</code> y sigue las instrucciones en pantalla para resolver el desafío.</p></div>
+      <button class="done-btn" onclick="markDone(3)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="s4">
+    <div class="step-header" onclick="openStep(4)">
+      <div class="step-num" id="n4">5</div>
+      <div class="step-meta">
+        <p class="step-title">Ingresar el código de verificación</p>
+        <p class="step-intro">El último paso para activar tu cuenta.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">GitHub envía un código de 8 dígitos al correo que ingresaste. Debes copiarlo y pegarlo en la pantalla para confirmar que el correo es tuyo. Este proceso se llama verificación de correo y es estándar en la mayoría de las plataformas web.</p>
+      <div class="step-tip"><i class="ti ti-bulb step-tip-icon" aria-hidden="true"></i><p class="step-tip-text">¿No llegó el correo? Revisa la carpeta de spam o correo no deseado. Si tampoco está ahí, puedes solicitar que te lo reenvíen desde la misma pantalla.</p></div>
+      <button class="done-btn" onclick="markDone(4)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="phase-label"><i class="ti ti-folder-plus" aria-hidden="true"></i> Parte 2 · Crear tu repositorio <div class="phase-line"></div></div>
+
+  <div class="step-card" id="s5">
+    <div class="step-header" onclick="openStep(5)">
+      <div class="step-num" id="n5">6</div>
+      <div class="step-meta">
+        <p class="step-title">Crear un nuevo repositorio</p>
+        <p class="step-intro">Un repositorio es la carpeta de tu proyecto en la nube.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">Un repositorio (o "repo") es donde vive tu proyecto en GitHub. Contiene todos tus archivos y el historial de cambios. Puedes tener tantos repositorios como proyectos quieras — y todos son gratuitos si son públicos.</p>
+      <div class="step-action"><p class="step-action-label">Acción</p><p class="step-action-text">En la pantalla principal haz clic en el botón verde <code>New</code> o en el ícono <code>+</code> en la barra superior y selecciona <code>New repository</code>.</p></div>
+      <button class="done-btn" onclick="markDone(5)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="s6">
+    <div class="step-header" onclick="openStep(6)">
+      <div class="step-num" id="n6">7</div>
+      <div class="step-meta">
+        <p class="step-title">Nombrar el repositorio y marcarlo como público</p>
+        <p class="step-intro">El nombre define la URL final de tu sitio.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">El nombre del repositorio formará parte de la URL de tu página publicada. Si lo llamas <code>hola-mundo</code>, tu sitio quedará disponible en <code>tu-usuario.github.io/hola-mundo</code>. Además, debe ser público para que GitHub Pages funcione con una cuenta gratuita — los repositorios privados no se pueden publicar.</p>
+      <div class="step-action"><p class="step-action-label">Acción</p><p class="step-action-text">Escribe <code>hola-mundo</code> en el campo <code>Repository name</code>. Selecciona la opción <code>Public</code> y haz clic en <code>Create repository</code>.</p></div>
+      <div class="step-tip"><i class="ti ti-bulb step-tip-icon" aria-hidden="true"></i><p class="step-tip-text">Usa guiones en lugar de espacios en el nombre. Los espacios no se permiten en URLs.</p></div>
+      <button class="done-btn" onclick="markDone(6)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="phase-label"><i class="ti ti-upload" aria-hidden="true"></i> Parte 3 · Subir tu archivo <div class="phase-line"></div></div>
+
+  <div class="step-card" id="s7">
+    <div class="step-header" onclick="openStep(7)">
+      <div class="step-num" id="n7">8</div>
+      <div class="step-meta">
+        <p class="step-title">Seleccionar "uploading an existing file"</p>
+        <p class="step-intro">GitHub te permite subir archivos directamente desde el navegador.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">Al crear el repositorio, GitHub muestra una pantalla vacía con varias opciones para agregar archivos. La más sencilla, sin necesidad de instalar nada, es subir el archivo directamente desde tu computador usando el enlace de carga.</p>
+      <div class="step-action"><p class="step-action-label">Acción</p><p class="step-action-text">En la pantalla del repositorio vacío, busca y haz clic en el enlace que dice <code>uploading an existing file</code>.</p></div>
+      <button class="done-btn" onclick="markDone(7)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="s8">
+    <div class="step-header" onclick="openStep(8)">
+      <div class="step-num" id="n8">9</div>
+      <div class="step-meta">
+        <p class="step-title">Arrastrar o seleccionar <code>index.html</code></p>
+        <p class="step-intro">El archivo debe llamarse exactamente así.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">GitHub Pages busca automáticamente un archivo llamado <code>index.html</code> para mostrarlo como la página principal. Si el archivo tiene otro nombre, el sitio no funcionará correctamente. Puedes arrastrarlo directamente a la zona de carga o hacer clic para buscarlo en tu computador.</p>
+      <div class="step-tip"><i class="ti ti-alert-triangle step-tip-icon" aria-hidden="true" style="color:var(--color-text-warning)"></i><p class="step-tip-text">El nombre debe ser exactamente <code>index.html</code> — todo en minúsculas, sin espacios. Una mayúscula o un espacio puede hacer que el sitio no cargue.</p></div>
+      <button class="done-btn" onclick="markDone(8)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="s9">
+    <div class="step-header" onclick="openStep(9)">
+      <div class="step-num" id="n9">10</div>
+      <div class="step-meta">
+        <p class="step-title">Escribir un mensaje de commit descriptivo</p>
+        <p class="step-intro">El commit es el registro oficial del cambio que estás haciendo.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">Un commit es como una fotografía del estado de tu proyecto en un momento específico. El mensaje que escribes describe qué cambiaste y por qué. Este historial es muy valioso: te permite saber qué se hizo, cuándo y quién lo hizo — especialmente cuando trabajas en equipo.</p>
+      <div class="step-action"><p class="step-action-label">Buena práctica</p><p class="step-action-text">Escribe algo descriptivo como <code>Agrega página principal hola mundo</code>. Evita mensajes vagos como "cambios" o "update".</p></div>
+      <div class="step-tip"><i class="ti ti-bulb step-tip-icon" aria-hidden="true"></i><p class="step-tip-text">La convención más usada es escribir el mensaje como una instrucción en presente: "Agrega", "Corrige", "Actualiza". Así se lee como un registro de acciones.</p></div>
+      <button class="done-btn" onclick="markDone(9)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="s10">
+    <div class="step-header" onclick="openStep(10)">
+      <div class="step-num" id="n10">11</div>
+      <div class="step-meta">
+        <p class="step-title">Hacer clic en "Commit changes"</p>
+        <p class="step-intro">Confirmas y guardas el archivo en el repositorio.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">Al hacer clic en <code>Commit changes</code>, el archivo queda guardado oficialmente en tu repositorio. GitHub registra quién hizo el cambio, cuándo y con qué mensaje. Desde este momento, el archivo vive en la nube y puedes acceder a él desde cualquier dispositivo.</p>
+      <button class="done-btn" onclick="markDone(10)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+</div>
+
+<div class="phase">
+  <div class="phase-label"><i class="ti ti-world" aria-hidden="true"></i> Parte 4 · Publicar con GitHub Pages <div class="phase-line"></div></div>
+
+  <div class="step-card" id="s11">
+    <div class="step-header" onclick="openStep(11)">
+      <div class="step-num" id="n11">12</div>
+      <div class="step-meta">
+        <p class="step-title">Ir a Settings → Pages</p>
+        <p class="step-intro">Aquí activarás la publicación de tu sitio.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">GitHub Pages es un servicio gratuito que convierte tu repositorio en un sitio web real con una URL pública. Para activarlo debes entrar a la configuración del repositorio y habilitarlo manualmente — no se activa solo.</p>
+      <div class="step-action"><p class="step-action-label">Acción</p><p class="step-action-text">Dentro de tu repositorio, haz clic en la pestaña <code>Settings</code> (arriba a la derecha). En el menú izquierdo, busca y haz clic en <code>Pages</code>.</p></div>
+      <button class="done-btn" onclick="markDone(11)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="s12">
+    <div class="step-header" onclick="openStep(12)">
+      <div class="step-num" id="n12">13</div>
+      <div class="step-meta">
+        <p class="step-title">Seleccionar rama <code>main</code> y carpeta <code>/ (root)</code></p>
+        <p class="step-intro">Le indicas a GitHub desde dónde servir tu sitio.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">GitHub necesita saber desde qué parte de tu repositorio publicar. La rama <code>main</code> es la principal (donde están tus archivos) y <code>/ (root)</code> significa la raíz — es decir, la carpeta principal del proyecto, justo donde subiste tu <code>index.html</code>.</p>
+      <div class="step-action"><p class="step-action-label">Acción</p><p class="step-action-text">En la sección <code>Branch</code>, selecciona <code>main</code> en el primer desplegable y <code>/ (root)</code> en el segundo. Haz clic en <code>Save</code>.</p></div>
+      <button class="done-btn" onclick="markDone(12)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="s13">
+    <div class="step-header" onclick="openStep(13)">
+      <div class="step-num" id="n13">14</div>
+      <div class="step-meta">
+        <p class="step-title">Esperar ~2 minutos</p>
+        <p class="step-intro">GitHub está preparando y desplegando tu sitio.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">Después de guardar, GitHub inicia un proceso automático llamado "deployment" (despliegue): toma tus archivos, los procesa y los publica en sus servidores. Este proceso demora entre 1 y 3 minutos. Puedes ver el estado del despliegue en la misma sección de Pages — aparecerá un ícono naranja mientras procesa y verde cuando esté listo.</p>
+      <button class="done-btn" onclick="markDone(13)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+
+  <div class="step-card" id="s14">
+    <div class="step-header" onclick="openStep(14)">
+      <div class="step-num" id="n14">15</div>
+      <div class="step-meta">
+        <p class="step-title">Visitar tu sitio publicado</p>
+        <p class="step-intro">Tu primera página web está en internet.</p>
+      </div>
+      <i class="ti ti-chevron-down step-chevron"></i>
+    </div>
+    <div class="step-body">
+      <p class="step-explanation">Una vez desplegado, tu sitio tiene una URL pública real que puedes compartir con cualquier persona del mundo. Esta URL sigue el formato <code>https://tu-usuario.github.io/hola-mundo</code>. Desde este momento, cada vez que subas un cambio al repositorio, el sitio se actualizará automáticamente.</p>
+      <div class="step-action"><p class="step-action-label">Tu URL</p><p class="step-action-text">Abre una nueva pestaña y escribe: <code>https://TU_USUARIO.github.io/hola-mundo</code></p></div>
+      <div class="step-tip"><i class="ti ti-bulb step-tip-icon" aria-hidden="true"></i><p class="step-tip-text">¿No carga? Espera un par de minutos más y recarga la página con F5. GitHub a veces tarda un poco más en la primera publicación.</p></div>
+      <button class="done-btn" onclick="markDone(14)"><i class="ti ti-check" aria-hidden="true"></i> Listo</button>
+    </div>
+  </div>
+</div>
+
+<div class="congrats" id="congrats">
+  <div class="congrats-icon"><i class="ti ti-trophy" aria-hidden="true"></i></div>
+  <p class="congrats-title">Tutorial completado</p>
+  <p class="congrats-text">Creaste tu cuenta, subiste tu primer archivo y publicaste tu primera página en internet. Ese es el flujo base que usarás en todos tus proyectos.</p>
+</div>
+
+<button class="reset-btn" onclick="resetAll()"><i class="ti ti-refresh" aria-hidden="true"></i> Reiniciar tutorial</button>
+
+<script>
+const TOTAL=15;
+const done=new Array(TOTAL).fill(false);
+function openStep(i){
+  const card=document.getElementById('s'+i);
+  const isOpen=card.classList.contains('open');
+  document.querySelectorAll('.step-card').forEach(c=>c.classList.remove('open'));
+  if(!isOpen&&!done[i]) card.classList.add('open','active');
+  else if(!isOpen&&done[i]) card.classList.add('open');
+}
+function markDone(i){
+  done[i]=true;
+  const card=document.getElementById('s'+i);
+  card.classList.remove('open','active');
+  card.classList.add('done');
+  document.getElementById('n'+i).innerHTML='<i class="ti ti-check" aria-hidden="true"></i>';
+  updateProgress();
+  const next=i+1;
+  if(next<TOTAL){
+    setTimeout(()=>{openStep(next);},300);
+  }
+}
+function updateProgress(){
+  const count=done.filter(Boolean).length;
+  const pct=Math.round(count/TOTAL*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-label').textContent=count+' de '+TOTAL+' pasos completados';
+  document.getElementById('prog-pct').textContent=pct+'%';
+  if(count===TOTAL) document.getElementById('congrats').classList.add('show');
+}
+function resetAll(){
+  done.fill(false);
+  document.querySelectorAll('.step-card').forEach((c,i)=>{
+    c.classList.remove('done','open','active');
+    document.getElementById('n'+i).textContent=(i+1);
+  });
+  document.getElementById('congrats').classList.remove('show');
+  updateProgress();
+}
+</script>
