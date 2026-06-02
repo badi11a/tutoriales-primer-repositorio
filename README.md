@@ -4,9 +4,7 @@ Tutorial interactivo paso a paso para que estudiantes sin experiencia creen su c
 
 ## Demo
 
-**[Ver tutorial en vivo →](https://TU_USUARIO.github.io/hola-mundo)**
-
-> Reemplaza `TU_USUARIO` con tu nombre de usuario de GitHub.
+**[Ver tutorial en vivo →](https://badi11a.github.io/tutoriales-primer-repositorio/)**
 
 ## ¿Qué aprende el estudiante?
 
